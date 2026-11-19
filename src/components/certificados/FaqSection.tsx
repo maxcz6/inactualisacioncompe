@@ -39,7 +39,7 @@ export default function FaqSection() {
 
   return (
     <div className="space-y-8 pt-8">
-      <h2 className="text-2xl font-bold text-center text-[#be123c]">
+      <h2 className="text-2xl font-bold text-center text-[#e11d49]">
         Preguntas Frecuentes
       </h2>
 
@@ -52,7 +52,7 @@ export default function FaqSection() {
                 <button
                   type="button"
                   onClick={() => toggle(index)}
-                  className="flex flex-1 w-full items-center justify-between py-4 text-left font-medium text-slate-800 hover:text-[#be123c] transition-all focus:outline-none"
+                  className="flex flex-1 w-full items-center justify-between py-4 text-left font-medium text-slate-800 hover:text-[#e11d49] transition-all focus:outline-none"
                   aria-expanded={isOpen}
                 >
                   <span>{faq.pregunta}</span>
@@ -67,7 +67,7 @@ export default function FaqSection() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     className={`h-4 w-4 shrink-0 transition-transform duration-200 text-slate-400 ${
-                      isOpen ? "rotate-180 text-[#be123c]" : ""
+                      isOpen ? "rotate-180 text-[#e11d49]" : ""
                     }`}
                   >
                     <path d="m6 9 6 6 6-6" />

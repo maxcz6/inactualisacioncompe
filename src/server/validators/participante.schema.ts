@@ -1,12 +1,18 @@
 import { z } from "zod";
+import { esDocumentoValido, normalizarDocumento } from "@/lib/documento";
 
 export const condicionEnum = z.enum(["Asistente", "Ponente", "Organizador"]);
 
+const documentoSchema = z
+  .string()
+  .transform(normalizarDocumento)
+  .refine(esDocumentoValido, {
+    message: "El documento debe tener entre 6 y 15 letras o números",
+  });
+
 export const participanteSchema = z.object({
   evento_id: z.string().uuid().nullable().optional(),
-  dni: z
-    .string()
-    .regex(/^\d{8}$/, { message: "El DNI debe tener exactamente 8 dígitos numéricos" }),
+  dni: documentoSchema,
   nombre: z
     .string()
     .min(3, { message: "El nombre debe tener al menos 3 caracteres" })
@@ -23,7 +29,7 @@ export const participanteSchema = z.object({
 export const participantePatchSchema = participanteSchema.partial();
 
 export const verificarDniSchema = z.object({
-  dni: z.string().regex(/^\d{8}$/, { message: "DNI debe tener exactamente 8 dígitos" }),
+  dni: documentoSchema,
 });
 
 export type ParticipanteInput = z.infer<typeof participanteSchema>;

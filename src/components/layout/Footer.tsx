@@ -112,7 +112,7 @@ export default function Footer() {
             </svg>
           </a>
           <a
-            href="mailto:cursosydiplomadosprofesionales@gmail.com"
+            href="mailto:inactualizacionperu@gmail.com"
             target="_blank"
             rel="noopener noreferrer"
             className="text-white hover:opacity-80 transition-opacity"
@@ -134,7 +134,7 @@ export default function Footer() {
             </svg>
           </a>
           <a
-            href="tel:+51925903204"
+            href="tel:+908757210"
             className="text-white hover:opacity-80 transition-opacity"
           >
             <svg

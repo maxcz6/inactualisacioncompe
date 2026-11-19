@@ -1,5 +1,6 @@
 import "server-only";
 import * as repo from "@/server/repositories/participante.repository";
+import { esDocumentoValido, normalizarDocumento } from "@/lib/documento";
 import type { CertificadoPublico } from "@/types/participante";
 
 /**
@@ -9,11 +10,11 @@ import type { CertificadoPublico } from "@/types/participante";
  */
 
 export async function consultarPorDni(dni: string): Promise<CertificadoPublico[]> {
-  const dniLimpio = dni.replace(/\D/g, "").slice(0, 8);
-  if (!/^\d{8}$/.test(dniLimpio)) {
-    throw new Error("DNI inválido: debe contener exactamente 8 dígitos");
+  const documento = normalizarDocumento(dni);
+  if (!esDocumentoValido(documento)) {
+    throw new Error("Documento inválido: debe tener entre 6 y 15 letras o números");
   }
-  return repo.findByDni(dniLimpio);
+  return repo.findByDni(documento);
 }
 
 export async function consultarPorCodigo(codigo: string): Promise<CertificadoPublico | null> {

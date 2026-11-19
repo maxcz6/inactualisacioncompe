@@ -14,6 +14,8 @@ Pega estos encabezados en la fila 1 de cada pestaña, respetando el orden y los 
 | `credenciales` | `id`, `email`, `password_hash`, `password_salt`, `created_at`, `updated_at` |
 | `logs` | `id`, `usuario_email`, `accion`, `detalle`, `created_at` |
 
+El campo `dni` acepta DNI de 8 dígitos o Carnet de Extranjería alfanumérico de 6 a 15 caracteres. Los documentos se normalizan a mayúsculas y se guardan como texto.
+
 `perfiles` conserva los datos y roles de administrador. Las credenciales van aparte: nunca se guarda la contraseña en texto plano; la aplicación guarda un hash PBKDF2 y una sal aleatoria en `credenciales`. Los valores `id` de `perfiles` y `credenciales` deben coincidir.
 
 ## Configurar Apps Script

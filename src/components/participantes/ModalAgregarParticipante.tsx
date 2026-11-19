@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { esDocumentoValido, normalizarDocumento } from "@/lib/documento";
 import type { Condicion } from "@/types/participante";
 import type { Evento } from "@/types/evento";
 import { crearParticipante } from "@/services/participante.service";
@@ -77,9 +78,9 @@ export default function ModalAgregarParticipante({ isOpen, onClose, onSuccess }:
     e.preventDefault();
     setError("");
 
-    const dniLimpio = dni.replace(/\D/g, "").slice(0, 8);
-    if (dniLimpio.length !== 8) {
-      setError("El DNI debe tener exactamente 8 dígitos numéricos.");
+    const documento = normalizarDocumento(dni);
+    if (!esDocumentoValido(documento)) {
+      setError("Ingrese un DNI de 8 dígitos o un documento de 6 a 15 caracteres.");
       return;
     }
 
@@ -97,7 +98,7 @@ export default function ModalAgregarParticipante({ isOpen, onClose, onSuccess }:
 
     try {
       const res = await crearParticipante({
-        dni: dniLimpio,
+        dni: documento,
         nombre: nombre.trim().toUpperCase(),
         condicion,
         evento_id: eventoId || null,
@@ -181,23 +182,21 @@ export default function ModalAgregarParticipante({ isOpen, onClose, onSuccess }:
           {/* DNI */}
           <div>
             <label htmlFor="modal-dni" className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">
-              DNI del Estudiante <span className="text-rose-500" aria-hidden="true">*</span>
+              DNI o Carnet de Extranjería <span className="text-rose-500" aria-hidden="true">*</span>
             </label>
             <input
               id="modal-dni"
               type="text"
               required
-              maxLength={8}
-              inputMode="numeric"
-              pattern="[0-9]*"
-              placeholder="Ej. 60006146"
+              maxLength={15}
+              placeholder="DNI o Carnet de Extranjería"
               value={dni}
-              onChange={(e) => setDni(e.target.value.replace(/\D/g, "").slice(0, 8))}
+              onChange={(e) => setDni(normalizarDocumento(e.target.value))}
               className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:bg-white dark:focus:bg-slate-900 focus:border-sky-500 focus:ring-2 focus:ring-sky-200 dark:focus:ring-sky-900 focus:outline-none transition-all"
               aria-required="true"
               aria-describedby="modal-dni-hint"
             />
-            <p id="modal-dni-hint" className="text-[11px] text-slate-400 mt-1">8 dígitos numéricos</p>
+            <p id="modal-dni-hint" className="text-[11px] text-slate-400 mt-1">DNI de 8 dígitos o documento de 6 a 15 caracteres alfanuméricos</p>
           </div>
 
           {/* Nombre */}

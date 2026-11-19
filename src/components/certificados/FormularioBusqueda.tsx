@@ -3,15 +3,12 @@
 import { useState, useRef, useCallback } from "react";
 import ResultadoCertificado from "@/components/certificados/ResultadoCertificado";
 import FaqSection from "@/components/certificados/FaqSection";
+import { esDocumentoValido, normalizarDocumento } from "@/lib/documento";
 import type { CertificadoPublico } from "@/types/participante";
 
 type Estado = "idle" | "cargando" | "ok" | "error";
 
-function sanitizarDocumento(valor: string): string {
-  return String(valor || "").trim().replace(/[^a-zA-Z0-9]/g, "").slice(0, 15);
-}
-
-export default function FormularioBusqueda({ total: initialTotal = 0 }: { total?: number }) {
+export default function FormularioBusqueda() {
   const [documento, setDocumento] = useState("");
   const [error, setError] = useState("");
   const [estado, setEstado] = useState<Estado>("idle");
@@ -21,11 +18,11 @@ export default function FormularioBusqueda({ total: initialTotal = 0 }: { total?
 
   const buscar = useCallback(async () => {
     setError("");
-    const valor = sanitizarDocumento(documento);
+    const valor = normalizarDocumento(documento);
     setDocumento(valor);
 
-    if (!valor) {
-      setError("Por favor ingrese un DNI o Carnet de Extranjería");
+    if (!esDocumentoValido(valor)) {
+      setError("Ingrese un DNI de 8 dígitos o un documento de 6 a 15 caracteres.");
       inputRef.current?.focus();
       return;
     }
@@ -35,15 +32,36 @@ export default function FormularioBusqueda({ total: initialTotal = 0 }: { total?
 
     try {
       const [res] = await Promise.all([
-        fetch(`/api/certificados/verificar?dni=${encodeURIComponent(valor)}`),
+        fetch(`/api/certificados/verificar?dni=${encodeURIComponent(valor)}`).catch(() => {
+          throw new Error("No se pudo conectar con el servicio de certificados. Intente nuevamente.");
+        }),
         new Promise((resolve) => setTimeout(resolve, 350)),
       ]);
 
-      if (!res.ok) throw new Error("No se pudo consultar el padrón.");
-      const json = await res.json();
-      setCertificados(json.data ?? []);
+      let json: { success?: unknown; data?: unknown; error?: unknown };
+      try {
+        json = await res.json();
+      } catch {
+        throw new Error("El servidor devolvió una respuesta inválida. Intente nuevamente.");
+      }
+      if (!res.ok) {
+        throw new Error(
+          res.status === 400 && typeof json.error === "string"
+            ? json.error
+            : "No se pudo acceder al padrón de certificados en este momento. Intente nuevamente."
+        );
+      }
+      if (json.success !== true || !Array.isArray(json.data)) {
+        throw new Error("El servidor devolvió una respuesta inválida. Intente nuevamente.");
+      }
+      setCertificados(json.data);
       setEstado("ok");
-    } catch {
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "No se pudo acceder al padrón de certificados en este momento. Intente nuevamente."
+      );
       setEstado("error");
     }
   }, [documento]);
@@ -51,13 +69,13 @@ export default function FormularioBusqueda({ total: initialTotal = 0 }: { total?
   return (
     <div className="w-full">
       {/* Hero Principal con fondo guinda / rose institucional */}
-      <div className="relative bg-[#be123c] text-white py-12 md:py-16 overflow-hidden">
+      <div className="relative bg-[#e11d49] text-white py-12 md:py-16 overflow-hidden">
         {/* Imagen de fondo con overlay */}
         <div
           className="absolute inset-0 w-full h-full z-0 bg-cover bg-center"
           style={{ backgroundImage: "url('/feature-1.jpg')" }}
         />
-        <div className="absolute inset-0 bg-[#be123c]/90 z-0 backdrop-blur-[2px]" />
+        <div className="absolute inset-0 bg-[#e11d49]/90 z-0 backdrop-blur-[2px]" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -168,7 +186,7 @@ export default function FormularioBusqueda({ total: initialTotal = 0 }: { total?
             {/* Columna Derecha: Tarjeta de Consulta */}
             <div>
               <div className="rounded-lg bg-white text-slate-900 shadow-xl border-0 p-6 sm:p-8">
-                <div className="tracking-tight text-xl font-semibold flex items-center gap-2 text-[#be123c] mb-6">
+                <div className="tracking-tight text-xl font-semibold flex items-center gap-2 text-[#e11d49] mb-6">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -201,12 +219,13 @@ export default function FormularioBusqueda({ total: initialTotal = 0 }: { total?
                           ref={inputRef}
                           type="text"
                           id="inputDocumento"
-                          className="flex h-10 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-base md:text-sm text-slate-900 placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#be123c] disabled:cursor-not-allowed disabled:opacity-50 flex-1"
+                          maxLength={15}
+                          className="flex h-10 w-full flex-1 rounded-md border border-slate-300 bg-white px-3 py-2 text-base text-slate-900 placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e11d49] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
                           placeholder="Ej: 12345678"
                           autoComplete="off"
                           value={documento}
                           onChange={(e) => {
-                            setDocumento(sanitizarDocumento(e.target.value));
+                            setDocumento(normalizarDocumento(e.target.value));
                             setError("");
                           }}
                           onKeyDown={(e) => {
@@ -228,7 +247,7 @@ export default function FormularioBusqueda({ total: initialTotal = 0 }: { total?
                       type="button"
                       onClick={buscar}
                       disabled={estado === "cargando"}
-                      className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#be123c] bg-[#be123c] text-white hover:bg-[#be123c]/90 h-10 px-4 py-2 w-full disabled:opacity-75 cursor-pointer shadow-sm"
+                      className="inline-flex h-10 w-full cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-md bg-[#e11d49] px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-[#e11d49]/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e11d49] disabled:opacity-75"
                     >
                       {estado === "cargando" ? (
                         <>
@@ -272,16 +291,14 @@ export default function FormularioBusqueda({ total: initialTotal = 0 }: { total?
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
         {estado === "cargando" && (
           <div className="flex flex-col items-center justify-center py-6 space-y-3">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#be123c]" />
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#e11d49]" />
             <p className="text-sm font-medium text-slate-600">Consultando certificados...</p>
           </div>
         )}
 
         {estado === "error" && (
           <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 shadow-sm">
-            <p className="text-sm text-amber-800 font-medium">
-              No se pudo acceder al padrón de certificados en este momento. Intente nuevamente.
-            </p>
+            <p role="alert" className="text-sm text-amber-800 font-medium">{error}</p>
           </div>
         )}
 

@@ -69,13 +69,13 @@ export default function FormularioBusqueda() {
   return (
     <div className="w-full">
       {/* Hero Principal con fondo guinda / rose institucional */}
-      <div className="relative bg-[#e11d49] text-white py-12 md:py-16 overflow-hidden">
+      <div className="relative bg-[#e11d48] text-white py-12 md:py-16 overflow-hidden">
         {/* Imagen de fondo con overlay */}
         <div
           className="absolute inset-0 w-full h-full z-0 bg-cover bg-center"
           style={{ backgroundImage: "url('/feature-1.jpg')" }}
         />
-        <div className="absolute inset-0 bg-[#e11d49]/90 z-0 backdrop-blur-[2px]" />
+        <div className="absolute inset-0 bg-[#e11d48]/90 z-0 backdrop-blur-[2px]" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -186,7 +186,7 @@ export default function FormularioBusqueda() {
             {/* Columna Derecha: Tarjeta de Consulta */}
             <div>
               <div className="rounded-lg bg-white text-slate-900 shadow-xl border-0 p-6 sm:p-8">
-                <div className="tracking-tight text-xl font-semibold flex items-center gap-2 text-[#e11d49] mb-6">
+                <div className="tracking-tight text-xl font-semibold flex items-center gap-2 text-[#e11d48] mb-6">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -220,7 +220,7 @@ export default function FormularioBusqueda() {
                           type="text"
                           id="inputDocumento"
                           maxLength={15}
-                          className="flex h-10 w-full flex-1 rounded-md border border-slate-300 bg-white px-3 py-2 text-base text-slate-900 placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e11d49] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+                          className="flex h-10 w-full flex-1 rounded-md border border-slate-300 bg-white px-3 py-2 text-base text-slate-900 placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e11d48] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
                           placeholder="Ej: 12345678"
                           autoComplete="off"
                           value={documento}
@@ -247,7 +247,7 @@ export default function FormularioBusqueda() {
                       type="button"
                       onClick={buscar}
                       disabled={estado === "cargando"}
-                      className="inline-flex h-10 w-full cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-md bg-[#e11d49] px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-[#e11d49]/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e11d49] disabled:opacity-75"
+                      className="inline-flex h-10 w-full cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-md bg-[#e11d48] px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-[#e11d48]/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e11d48] disabled:opacity-75"
                     >
                       {estado === "cargando" ? (
                         <>
@@ -291,7 +291,7 @@ export default function FormularioBusqueda() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
         {estado === "cargando" && (
           <div className="flex flex-col items-center justify-center py-6 space-y-3">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#e11d49]" />
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#e11d48]" />
             <p className="text-sm font-medium text-slate-600">Consultando certificados...</p>
           </div>
         )}

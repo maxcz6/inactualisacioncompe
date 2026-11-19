@@ -30,7 +30,7 @@ export default function Header() {
           aria-expanded={mostrarBusquedaMovil}
           aria-controls="mobile-search"
           onClick={() => setMostrarBusquedaMovil((visible) => !visible)}
-          className="ml-auto inline-flex h-10 w-10 items-center justify-center rounded-md text-slate-500 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e11d49] sm:hidden"
+          className="ml-auto inline-flex h-10 w-10 items-center justify-center rounded-md text-slate-500 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e11d48] sm:hidden"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -89,7 +89,7 @@ export default function Header() {
           </Link>
           <Link
             className="text-[#36485C] font-medium hover:bg-muted hover:bg-opacity-75 group p-2 rounded-md"
-            href="https://inactualizacion.com.pe/buscar-certificado"
+            href="https://inactualisacioncompe.vercel.app/"
           >
             Validar Certificado
           </Link>
@@ -117,7 +117,7 @@ export default function Header() {
         <div className="flex items-center gap-x-5">
           <a
             href="/admin/login"
-            className="inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-[#e11d49] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#e11d49]/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e11d49] focus-visible:ring-offset-2"
+            className="inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-[#e11d48] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#e11d48]/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e11d48] focus-visible:ring-offset-2"
           >
             Ingresar
           </a>
@@ -151,7 +151,7 @@ export default function Header() {
               name="search"
               autoComplete="off"
               placeholder="Busca que quieres aprender"
-              className="h-10 w-full rounded-md border border-slate-300 bg-white py-2 pl-10 pr-3 text-sm text-slate-900 placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e11d49]"
+              className="h-10 w-full rounded-md border border-slate-300 bg-white py-2 pl-10 pr-3 text-sm text-slate-900 placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e11d48]"
             />
           </div>
       </div>

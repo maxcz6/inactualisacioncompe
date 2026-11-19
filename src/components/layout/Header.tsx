@@ -63,14 +63,14 @@ export default function Header() {
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="lucide lucide-search absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4"
+              className="lucide lucide-search absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-zinc-500"
             >
               <circle cx="11" cy="11" r="8" />
               <path d="m21 21-4.3-4.3" />
             </svg>
             <input
               type="text"
-              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm pl-10 pr-10"
+              className="flex h-10 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 pl-10 pr-10 text-base text-slate-900 placeholder:text-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e11d48] focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
               placeholder="Busca que quieres aprender"
               autoComplete="off"
               id="search"
@@ -82,31 +82,31 @@ export default function Header() {
         {/* Links de Navegación Exactos */}
         <div className="hidden lg:flex pl-[74px] gap-x-[56px]">
           <Link
-            className="text-[#36485C] font-medium hover:bg-muted hover:bg-opacity-75 group p-2 rounded-md"
+            className="group rounded-md p-2 font-medium text-[#36485C] transition-colors hover:bg-[#f4f4f5]"
             href="https://inactualizacion.com.pe/"
           >
             Inicio
           </Link>
           <Link
-            className="text-[#36485C] font-medium hover:bg-muted hover:bg-opacity-75 group p-2 rounded-md"
+            className="group rounded-md p-2 font-medium text-[#36485C] transition-colors hover:bg-[#f4f4f5]"
             href="https://inactualisacioncompe.vercel.app/"
           >
             Validar Certificado
           </Link>
           <a
-            className="text-[#36485C] font-medium hover:bg-muted hover:bg-opacity-75 group p-2 rounded-md"
+            className="group rounded-md p-2 font-medium text-[#36485C] transition-colors hover:bg-[#f4f4f5]"
             href="https://inactualizacion.com.pe/#nosotros"
           >
             Nosotros
           </a>
           <a
-            className="text-[#36485C] font-medium hover:bg-muted hover:bg-opacity-75 group p-2 rounded-md"
+            className="group rounded-md p-2 font-medium text-[#36485C] transition-colors hover:bg-[#f4f4f5]"
             href="https://inactualizacion.com.pe/cursos"
           >
             Cursos
           </a>
           <a
-            className="text-[#36485C] font-medium hover:bg-muted hover:bg-opacity-75 group p-2 rounded-md"
+            className="group rounded-md p-2 font-medium text-[#36485C] transition-colors hover:bg-[#f4f4f5]"
             href="https://inactualizacion.com.pe/#faq"
           >
             Faq
@@ -151,7 +151,7 @@ export default function Header() {
               name="search"
               autoComplete="off"
               placeholder="Busca que quieres aprender"
-              className="h-10 w-full rounded-md border border-slate-300 bg-white py-2 pl-10 pr-3 text-sm text-slate-900 placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e11d48]"
+              className="h-10 w-full rounded-md border border-zinc-200 bg-white py-2 pl-10 pr-3 text-sm text-slate-900 placeholder:text-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e11d48] focus-visible:ring-offset-2 focus-visible:ring-offset-white"
             />
           </div>
       </div>
